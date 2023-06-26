@@ -1,2 +1,2 @@
 
-Update traefik crd and rbac from official traefik website via `./update.sh`
+Download traefik crds and rbac from official traefik website to `origin/` via `./update.sh`.
