@@ -1,0 +1,10 @@
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: bgp-to-main-router
+  namespace: metallb-system
+spec:
+  myASN: 65010
+  peerASN: 65010
+  peerAddress: 192.168.2.1
+  bfdProfile: default
