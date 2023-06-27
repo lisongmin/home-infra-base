@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+if [ -z "$BOOTSTRAP_ENVRC_LOADED" ]; then
+
+  export BOOTSTRAP_ENVRC_LOADED=true
+
+  export CLUSTER_NAME=${CLUSTER_NAME:-home}
+
+  # =========================
+  # { Variables for setup k3s
+  # =========================
+
+  export K3S_VERSION=${K3S_VERSION:-v1.27.2+k3s1}
+
+  export K3S_USER=${K3S_USER:-root}
+
+  # The first server node
+  export K3S_SERVER=${K3S_SERVER:-}
+  # Other server nodes(in an array)
+  export K3S_SERVERS_TO_JOIN=${K3S_SERVERS_TO_JOIN:-}
+  # All agents(in an array)
+  export K3S_AGENTS=${K3S_AGENTS:-}
+
+  if [ -n "$K3S_CLUSTER_CIDR_V4" ] && [ -n "$K3S_CLUSTER_CIDR_V6" ]; then
+    K3S_CLUSTER_CIDR="${K3S_CLUSTER_CIDR_V4},${K3S_CLUSTER_CIDR_V6}"
+    K3S_SERVICE_CIDR="${K3S_SERVICE_CIDR_V4},${K3S_SERVICE_CIDR_V6}"
+  elif [ -n "$K3S_CLUSTER_CIDR_V4" ]; then
+    K3S_CLUSTER_CIDR="${K3S_CLUSTER_CIDR_V4}"
+    K3S_SERVICE_CIDR="${K3S_SERVICE_CIDR_V4}"
+  elif [ -n "$K3S_CLUSTER_CIDR_V6" ]; then
+    K3S_CLUSTER_CIDR="${K3S_CLUSTER_CIDR_V6}"
+    K3S_SERVICE_CIDR="${K3S_SERVICE_CIDR_V6}"
+  else
+    K3S_CLUSTER_CIDR=10.42.0.0/16
+    K3S_SERVICE_CIDR=10.43.0.0/16
+  fi
+  export K3S_EXTRA_ARGS="$K3S_EXTRA_ARGS --flannel-backend=wireguard-native --disable=servicelb,traefik --cluster-cidr=${K3S_CLUSTER_CIDR} --service-cidr=${K3S_SERVICE_CIDR}"
+
+  # }
+
+  # =========================
+  # { Variables for setup sops
+  # =========================
+
+  # The path to save sops private key
+  export SOPS_PATH=${SOPS_PATH:-~/.config/sops/${CLUSTER_NAME}}
+
+  # }
+
+  # =========================
+  # { Variables for setup flux
+  # =========================
+  export FLUX_BOOTSTRAP_METHOD=${FLUX_BOOTSTRAP_METHOD:-github}
+  export FLUX_GIT_OWNER=${FLUX_GIT_OWNER:-}
+  export FLUX_GIT_REPOSITORY=${FLUX_GIT_REPOSITORY:-}
+
+  # Required if using git
+  export GIT_PASSWORD=${GIT_PASSWORD:-}
+  # Required if using github
+  export GITHUB_TOKEN=${GITHUB_TOKEN:-}
+  # Required if using gitlab
+  export GITLAB_TOKEN=${GITLAB:-}
+  # }
+
+fi

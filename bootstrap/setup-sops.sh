@@ -3,7 +3,9 @@
 # encrypt the data or stringData fields in the files which end with
 # .secret.yml or .secret.yaml
 
-SOPS_PATH=${SOPS_PATH:-~/.config/sops/homelab}
+LOCAL_DIR=$(dirname "$0")
+source "${LOCAL_DIR}/envrc"
+
 mkdir -p "${SOPS_PATH}"
 
 if [ ! -e "${SOPS_PATH}/age.key" ]; then
