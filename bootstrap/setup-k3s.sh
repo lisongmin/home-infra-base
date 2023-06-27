@@ -11,7 +11,8 @@ k3sup install \
   --k3s-version "${K3S_VERSION}" || exit $?
 
 if [ -n "${K3S_SERVERS_TO_JOIN}" ]; then
-  for server_to_join in "${K3S_SERVERS_TO_JOIN[@]}"; do
+  read -ra servers_to_join <<<"$K3S_SERVERS_TO_JOIN"
+  for server_to_join in "${servers_to_join[@]}"; do
     k3sup join \
       --server \
       --server_user "${K3S_USER}" \
@@ -24,7 +25,8 @@ if [ -n "${K3S_SERVERS_TO_JOIN}" ]; then
 fi
 
 if [ -n "${K3S_AGENTS}" ]; then
-  for agent in "${K3S_AGENTS[@]}"; do
+  read -ra agents_to_join <<<"$K3S_AGENTS"
+  for agent in "${agents_to_join[@]}"; do
     k3sup join \
       --server_user "${K3S_USER}" \
       --server_host "${K3S_SERVER}" \
