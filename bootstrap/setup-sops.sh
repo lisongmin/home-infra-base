@@ -11,7 +11,7 @@ if [ ! -e "${SOPS_PATH}/age.key" ]; then
 fi
 
 if [ ! -e .sops.yaml ]; then
-  public_key=$(cat ${SOPS_PATH}/age.key | sed -n 's/^# public key: \(\w\+\)$/\1/p')
+  public_key=$(sed -n 's/^# public key: \(\w\+\)$/\1/p' "${SOPS_PATH}/age.key")
 
   cat <<EOF >.sops.yaml
   ---
