@@ -1,0 +1,77 @@
+---
+accessLog: {}
+api:
+  insecure: false
+  dashboard: false
+certificatesresolvers:
+  letsencrypt-dns01:
+    acme:
+      storage: /traefik-data/acme.json
+      caserver: "https://acme-v02.api.letsencrypt.org/directory"
+      email: ""
+      dnschallenge:
+        provider: "cloudflare"
+      keyType: EC384
+  letsencrypt-alpn01:
+    acme:
+      storage: /traefik-data/acme.json
+      caserver: "https://acme-v02.api.letsencrypt.org/directory"
+      email: ""
+      tlschallenge: true
+      keyType: EC384
+  zerossl-dns01:
+    acme:
+      storage: /traefik-data/acme.json
+      caserver: "https://acme.zerossl.com/v2/DV90"
+      email: ""
+      dnschallenge:
+        provider: "cloudflare"
+      keyType: EC384
+      # eab is required when using zerossl
+      eab:
+        hmacencoded:
+        kid:
+  zerossl-alpn01:
+    acme:
+      storage: /traefik-data/acme.json
+      caserver: "https://acme.zerossl.com/v2/DV90"
+      email: ""
+      tlschallenge: true
+      keyType: EC384
+      # eab is required when using zerossl
+      eab:
+        hmacencoded:
+        kid:
+  stepca-alpn01:
+    # Need to set LEGO_CA_CERTIFICATES to provide the full path of the root ca
+    acme:
+      storage: /traefik-data/acme.json
+      caserver: "https://step-ca.internal/acme/acme/directory"
+      email: ""
+      certificatesDuratio: 24
+      tlschallenge: true
+      keyType: EC384
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: zerossl-alpn01
+log:
+  level: INFO
+global:
+  checkNewVersion: false
+ping: {}
+providers:
+  kubernetescrd: {}
+  kubernetesingress: {}
+  kubernatesGateway: {}
+experimental:
+  http3: true
+  kubernetGateway: true
