@@ -16,10 +16,10 @@ if [ ! -e .sops.yaml ]; then
   public_key=$(sed -n 's/^# public key: \(\w\+\)$/\1/p' "${SOPS_PATH}/age.key")
 
   cat <<EOF >.sops.yaml
-  ---
-  creation_rules:
+---
+creation_rules:
   - encrypted_regex: '^(data|stringData)$'
-    path_regex: '.*\/.*\.secret\.ya?ml$'
+    path_regex: '.*\.secret\.ya?ml$'
     age: >-
       ${public_key}
 EOF
