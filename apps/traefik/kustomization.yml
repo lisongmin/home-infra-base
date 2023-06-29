@@ -5,5 +5,8 @@ namespace: kube-system
 resources:
   - origin
   - traefik.pvc.yml
-  - traefik.static-config.yml
   - traefik.yml
+configMapGenerator:
+  - name: traefik-static-config
+    files:
+      - traefik.yml=data/traefik-static-config.yml
