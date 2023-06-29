@@ -22,6 +22,11 @@ spec:
             - --configfile=/etc/traefik/traefik.yml
           image: traefik:${TRAEFIK_VERSION}
           name: traefik-ingress-lb
+          envFrom:
+            - secretRef:
+                # A secret with this name should be defined
+                # in the user's cluster.
+                name: traefik-static-config-secret
           volumeMounts:
             - name: traefik-data
               mountPath: /traefik-data
