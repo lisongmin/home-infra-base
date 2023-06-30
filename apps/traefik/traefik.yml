@@ -20,7 +20,7 @@ spec:
       containers:
         - args:
             - --configfile=/etc/traefik/traefik.yml
-          image: traefik:${TRAEFIK_VERSION}
+          image: traefik:v2.10.3
           name: traefik-ingress-lb
           envFrom:
             - secretRef:
