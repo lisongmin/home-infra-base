@@ -1,0 +1,7 @@
+---
+- op: add
+  path: /subjects
+  value:
+    - kind: ServiceAccount
+      name: traefik-ingress-controller
+      namespace: kube-system

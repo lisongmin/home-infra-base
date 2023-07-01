@@ -25,7 +25,7 @@ certificatesresolvers:
       storage: /traefik-data/acme.json
       caserver: "https://step-ca.internal/acme/acme/directory"
       email: ""
-      certificatesDuratio: 24
+      certificatesDuration: 24
       keyType: EC384
       tlschallenge: true
 entryPoints:
@@ -48,7 +48,7 @@ ping: {}
 providers:
   kubernetescrd: {}
   kubernetesingress: {}
-  kubernatesGateway: {}
+  kubernetesGateway: {}
 experimental:
   http3: true
-  kubernetGateway: true
+  kubernetesGateway: true

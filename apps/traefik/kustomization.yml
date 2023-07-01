@@ -11,3 +11,12 @@ configMapGenerator:
   - name: traefik-static-config
     files:
       - traefik.yml=data/traefik-static-config.yml
+patches:
+  - target:
+      kind: ClusterRoleBinding
+      name: traefik-ingress-controller
+    path: patch-traefik-ingress-controller-binding.yml
+  - target:
+      kind: ClusterRoleBinding
+      name: gateway-controller
+    path: patch-traefik-ingress-controller-binding.yml
