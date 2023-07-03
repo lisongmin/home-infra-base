@@ -1,13 +1,13 @@
 ---
 - op: add
-  path: /spec/template/spec/volumes
+  path: /spec/template/spec/volumes/-
   value:
-    - name: longhorn-data1
-      hostPath:
-        path: /srv/longhorn/data1
+    name: longhorn-data1
+    hostPath:
+      path: /srv/longhorn/data1
 - op: add
-  path: /spec/template/spec/containers/0/volumeMounts
+  path: /spec/template/spec/containers/0/volumeMounts/-
   value:
-    - name: longhorn-data1
-      mountPath: /srv/longhorn/data1
-      mountPropagation: Bidirectional
+    name: longhorn-data1
+    mountPath: /srv/longhorn/data1
+    mountPropagation: Bidirectional
